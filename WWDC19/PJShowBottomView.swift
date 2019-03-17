@@ -11,15 +11,25 @@ import UIKit
 
 public class PJShowBottonView: UIView {
     
-    var images: [UIImage]?
+//    var images: [UIImage]?
+    var viewModel: [UIColor]? {
+        didSet { collectionView?.viewModels = viewModel }
+    }
+    var moveCell: ((Int, CGPoint) -> Void)?
+    var moveBegin: ((Int) -> Void)?
+    var moveEnd: (() -> Void)?
+    var collectionView: PJLineCollectionView?
+    var longPressView: UIView?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        initView()
     }
     
-    convenience init(height: CGFloat) {
-        self.init(frame: CGRect(x: 0, y: screenHeight - height, width: screenWidth, height: height))
+    convenience init(height: CGFloat, longPressView: UIView?) {
+        self.init(frame: CGRect(x: 0, y: screenHeight - height,
+                                width: screenWidth, height: height))
+        self.longPressView = self
+        initView()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -40,17 +50,35 @@ public class PJShowBottonView: UIView {
         collectionViewLayout.minimumInteritemSpacing = 10
         collectionViewLayout.scrollDirection = .horizontal
         collectionViewLayout.sectionInset = UIEdgeInsets.init(top: 0, left: innerW / 2,
-                                                              bottom: 0, right: 0)
+                                                              bottom: 0, right: innerW / 2)
+    
+        collectionView = PJLineCollectionView(frame: CGRect(x: 0, y: 0, width: width,
+                                                                height: height),
+                                                  collectionViewLayout: collectionViewLayout,
+                                                  longPressView: longPressView)
+        collectionView!.viewDelegate = self
+        addSubview(collectionView!)
         
-        let collectionView = PJLineCollectionView(frame: CGRect(x: 0, y: 0, width: width, height: height), collectionViewLayout: collectionViewLayout)
-        addSubview(collectionView)
-        
-        var viewModels = [PJLineCollectionViewCell.ViewModel]()
-        for _ in 0...10 {
-            let viewModel = PJLineCollectionViewCell.ViewModel(image: UIImage())
-            viewModels.append(viewModel)
+        collectionView!.moveCell = { [weak self] cellIndex, centerPoint in
+            guard let self = `self` else { return }
+            self.moveCell?(cellIndex, centerPoint)
         }
-        collectionView.viewModels = viewModels
+        
+        collectionView?.moveBegin = { [weak self] cellIndex in
+            guard let self = `self` else { return }
+            self.moveBegin?(cellIndex)
+        }
+        
+        collectionView?.moveEnd = { [weak self] in
+            guard let self = `self` else { return }
+            self.moveEnd?()
+        }
+    }
+}
+
+
+extension PJShowBottonView: PJLineCollectionViewDelegate {
+    func collectionViewCellLongPress(_ cellIndex: Int) {
         
     }
 }

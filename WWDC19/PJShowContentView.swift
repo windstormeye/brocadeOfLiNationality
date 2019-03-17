@@ -9,6 +9,11 @@
 import UIKit
 
 public class PJShowContentView: UIView {
+    var tempItem: PJShowItem? { didSet { didSetTempItem() }}
+    
+    var focusItems = [PJShowItem]()
+    var copyItems = [PJShowItem]()
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
@@ -60,5 +65,29 @@ public class PJShowContentView: UIView {
             
             copyItem.center = CGPoint(x: copyX, y: newCenter.y)
         }
+    }
+    
+    private func didSetTempItem() {
+        focusItems.append(tempItem!)
+        createCopyItem(tempItem!)
+    }
+    
+    private func createCopyItem(_ focusItem: PJShowItem) {
+        // 刚开始先顶出去
+        let copyItem = PJShowItem(frame: CGRect(x: -1000, y: -1000,
+                                                width: focusItem.width / 3 * 2,
+                                                height: focusItem.height / 3 * 2))
+        copyItem.backgroundColor = focusItem.backgroundColor
+        addSubview(copyItem)
+        
+        focusItem.panGestureX = { newCenter in
+            let middleX = self.width / 2
+            let middleW = middleX - newCenter.x
+            let copyX = middleX + middleW
+            
+            copyItem.center = CGPoint(x: copyX, y: newCenter.y)
+        }
+        
+        copyItems.append(copyItem)
     }
 }

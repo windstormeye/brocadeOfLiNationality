@@ -12,9 +12,6 @@ import UIKit
 public class PJShowItem: UIView {
     /// return new item.center
     var panGestureX: ((CGPoint) -> Void)?
-
-    var endXs: [CGFloat]?
-    var endYs: [CGFloat]?
     
     var endTop: CGFloat?
     var endBottom: CGFloat?

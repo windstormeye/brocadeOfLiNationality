@@ -9,15 +9,16 @@
 import UIKit
 
 class PJLineCollectionViewCell: UICollectionViewCell {
-    var viewModel: ViewModel? {
+//    var viewModel: ViewModel? {
+//        didSet { setViewModel(viewModel!) }
+//    }
+
+    var viewModel: UIColor? {
         didSet { setViewModel(viewModel!) }
     }
     
-    private func setViewModel(_ viewModel: ViewModel) {
-        let coloes = [UIColor.red, UIColor.yellow, UIColor.green, UIColor.blue, UIColor.brown, UIColor.gray]
-        
-        let c = NSInteger.random(in: 0...4)
-        backgroundColor = coloes[c]
+    private func setViewModel(_ viewModel: UIColor) {
+        backgroundColor = viewModel
     }
 }
 
