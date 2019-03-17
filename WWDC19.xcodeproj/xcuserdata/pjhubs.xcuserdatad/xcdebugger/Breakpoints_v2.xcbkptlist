@@ -10,12 +10,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WWDC19/PJLineCollectionView.swift"
-            timestampString = "574505629.252454"
+            timestampString = "574517013.774197"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "65"
             endingLineNumber = "65"
             landmarkName = "cellLongPress(longPressGesture:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WWDC19/PJShowContentView.swift"
+            timestampString = "574517013.774263"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
+            landmarkName = "fitNearbyLocation(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -19,6 +19,14 @@ public class PJShowItem: UIView {
     var endLeft: CGFloat?
     var endRight: CGFloat?
     
+    // 移动开始时的位置
+    var oldCenter: CGPoint?
+    
+    // 在 x 轴上的位置
+    var currentXIndex: Int?
+    // 在 y 轴上的位置
+    var currentYIndex: Int?
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
@@ -36,6 +44,8 @@ public class PJShowItem: UIView {
     @objc
     fileprivate func panGestrue(panGesture: UIPanGestureRecognizer) {
         switch panGesture.state {
+        case .began:
+            oldCenter = self.center
         case .changed:
             let translation = panGesture.translation(in: superview)
             

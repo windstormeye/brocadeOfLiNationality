@@ -13,6 +13,8 @@ public class PJShowContentView: UIView {
     
     var focusItems = [PJShowItem]()
     var copyItems = [PJShowItem]()
+    // 注意：这里为三元组
+    var itemsFilter = [[PJShowItem]]()
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,6 +26,18 @@ public class PJShowContentView: UIView {
     }
     
     private func initView() {
+        let XIndex = 3
+        let itemW = screenWidth / 6
+        let YIndex = Int((screenHeight - 64) / itemW)
+        for _ in 0..<XIndex {
+            var items = [PJShowItem]()
+            for _ in 0..<YIndex {
+                items.append(PJShowItem())
+            }
+            itemsFilter.append(items)
+        }
+        
+        
         let imgView: UIImageView = UIImageView(frame: CGRect(x: width / 2, y: 0,
                                                              width: 5, height: height))
         addSubview(imgView)
@@ -73,7 +87,8 @@ public class PJShowContentView: UIView {
     
     func fitNearbyLocation(_ currentItem: PJShowItem) {
         let itemW = screenWidth / 6
-        let itemCenter = CGPoint(x: currentItem.x, y: currentItem.y)
+        let itemCenter = CGPoint(x: currentItem.x,
+                                 y: currentItem.y)
         
         let itemXIndex = lroundf(Float(itemCenter.x / itemW))
         let finalItemCenterX = CGFloat(itemXIndex) * itemW
@@ -81,10 +96,20 @@ public class PJShowContentView: UIView {
         let itemYIndex = Int(itemCenter.y / itemW)
         let finalItemCenterY = CGFloat(itemYIndex) * itemW
         
-        currentItem.x = finalItemCenterX
-        currentItem.y = finalItemCenterY
-        
-        updateCopyItemPosition(currentItem.center, currentItem.tag)
+        if itemsFilter[itemXIndex][itemYIndex].tag == 0 {
+            currentItem.x = finalItemCenterX
+            currentItem.y = finalItemCenterY
+            
+            currentItem.currentXIndex = itemXIndex
+            currentItem.currentYIndex = itemYIndex
+            
+            itemsFilter[itemXIndex][itemYIndex] = currentItem
+            
+            updateCopyItemPosition(currentItem.center,
+                                   currentItem.tag)
+        } else {
+            currentItem.center = currentItem.oldCenter!
+        }
     }
     
     private func updateCopyItemPosition(_ itemCenter: CGPoint,
