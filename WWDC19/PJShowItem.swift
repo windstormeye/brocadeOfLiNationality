@@ -12,6 +12,7 @@ import UIKit
 public class PJShowItem: UIView {
     /// return new item.center
     var panGestureX: ((CGPoint) -> Void)?
+    var panGestureEnd: (() -> Void)?
     
     var endTop: CGFloat?
     var endBottom: CGFloat?
@@ -34,7 +35,8 @@ public class PJShowItem: UIView {
     
     @objc
     fileprivate func panGestrue(panGesture: UIPanGestureRecognizer) {
-        if (panGesture.state == .changed || panGesture.state == .ended) {
+        switch panGesture.state {
+        case .changed:
             let translation = panGesture.translation(in: superview)
             
             let final_centerX = center.x + translation.x
@@ -75,6 +77,9 @@ public class PJShowItem: UIView {
             panGesture.setTranslation(.zero, in: superview)
             
             panGestureX?(center)
+        case .ended:
+            panGestureEnd?()
+        default: break
         }
     }
 }

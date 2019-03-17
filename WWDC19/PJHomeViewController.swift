@@ -9,16 +9,8 @@
 import UIKit
 
 public class PJHomeViewController: UIViewController {
-
-    public override func viewDidLoad() {
-        
-    }
     
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//    }
-    
-    
+    var itemTag = 0
     
     public override func loadView() {
         view = UIView(frame: UIScreen.main.bounds)
@@ -34,18 +26,23 @@ public class PJHomeViewController: UIViewController {
         
         bottomView.moveCell = { cellIndex, centerPoint in
             guard let tempItem = contentView.tempItem else { return }
-            tempItem.center = CGPoint(x: centerPoint.x, y: centerPoint.y + bottomView.top)
+            tempItem.center = CGPoint(x: centerPoint.x,
+                                      y: centerPoint.y + bottomView.top)
         }
         
         bottomView.moveBegin = { cellIndex in
+            let itemW = screenWidth / 6
             // 刚开始的初始化先让其消失
-            let moveItem = PJShowItem(frame: CGRect(x: -100, y: -100, width: 50, height: 50))
+            let moveItem = PJShowItem(frame: CGRect(x: -100, y: -100,
+                                                    width: itemW, height: itemW))
             moveItem.endTop = 0
             moveItem.endBottom = contentView.height
             moveItem.endLeft = 0
             moveItem.endRight = contentView.width / 2
             moveItem.backgroundColor = colors[cellIndex]
             moveItem.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            moveItem.tag = self.itemTag
+            self.itemTag += 1
             
             contentView.addSubview(moveItem)
             contentView.tempItem = moveItem
