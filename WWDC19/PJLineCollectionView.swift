@@ -67,14 +67,19 @@ class PJLineCollectionView: UICollectionView {
                 currentCellIndex = cellIndexPath!.row
                 moveBegin?(currentCellIndex!)
             }
+            
         case .changed:
             guard let currentCellIndex = currentCellIndex else { return }
             guard let longPressView = longPressView else { return }
             
             moveCell?(currentCellIndex,
                       longPressGesture.location(in: longPressView))
+            
         case .ended:
+            viewModels!.remove(at: currentCellIndex!)
+            reloadData()
             moveEnd?()
+            
         default: break
         }
     }

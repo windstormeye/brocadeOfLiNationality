@@ -39,7 +39,7 @@ public class PJHomeViewController: UIViewController {
             moveItem.endBottom = contentView.height
             moveItem.endLeft = 0
             moveItem.endRight = contentView.width / 2
-            moveItem.backgroundColor = colors[cellIndex]
+            moveItem.backgroundColor = bottomView.viewModel![cellIndex]
             moveItem.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
             moveItem.tag = self.itemTag
             self.itemTag += 1

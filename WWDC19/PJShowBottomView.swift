@@ -72,6 +72,7 @@ public class PJShowBottonView: UIView {
         collectionView?.moveEnd = { [weak self] in
             guard let self = `self` else { return }
             self.moveEnd?()
+            self.viewModel = self.collectionView?.viewModels
         }
     }
 }
