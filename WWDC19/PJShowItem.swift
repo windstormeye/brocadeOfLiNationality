@@ -22,10 +22,15 @@ public class PJShowItem: UIView {
     // 移动开始时的位置
     var oldCenter: CGPoint?
     
-    // 在 x 轴上的位置
+    // 当前在 x 轴上的位置
     var currentXIndex: Int?
-    // 在 y 轴上的位置
+    // 当前在 y 轴上的位置
     var currentYIndex: Int?
+    
+    // 之前在 x 轴上的位置
+    var previousXIndex: Int?
+    // 之前在 y 轴上的位置
+    var previousYIndex: Int?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)

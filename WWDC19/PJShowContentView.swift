@@ -29,9 +29,9 @@ public class PJShowContentView: UIView {
         let XIndex = 3
         let itemW = screenWidth / 6
         let YIndex = Int((screenHeight - 64) / itemW)
-        for _ in 0..<XIndex {
+        for _ in 0..<YIndex {
             var items = [PJShowItem]()
-            for _ in 0..<YIndex {
+            for _ in 0..<XIndex {
                 items.append(PJShowItem())
             }
             itemsFilter.append(items)
@@ -96,20 +96,32 @@ public class PJShowContentView: UIView {
         let itemYIndex = Int(itemCenter.y / itemW)
         let finalItemCenterY = CGFloat(itemYIndex) * itemW
         
-        if itemsFilter[itemXIndex][itemYIndex].tag == 0 {
+        if itemsFilter[itemYIndex][itemXIndex].tag == 0 {
             currentItem.x = finalItemCenterX
             currentItem.y = finalItemCenterY
             
+            
+            if currentItem.previousXIndex == nil {
+                // 第一次
+                currentItem.previousXIndex = itemXIndex
+                currentItem.previousYIndex = itemYIndex
+            } else {
+                // 删除上一次的记录
+                itemsFilter[currentItem.previousYIndex!][currentItem.previousXIndex!] = PJShowItem()
+            }
+            
             currentItem.currentXIndex = itemXIndex
             currentItem.currentYIndex = itemYIndex
+            currentItem.previousYIndex = currentItem.currentYIndex
+            currentItem.previousXIndex = currentItem.currentXIndex
             
-            itemsFilter[itemXIndex][itemYIndex] = currentItem
-            
-            updateCopyItemPosition(currentItem.center,
-                                   currentItem.tag)
+            itemsFilter[itemYIndex][itemXIndex] = currentItem
         } else {
             currentItem.center = currentItem.oldCenter!
         }
+        
+        updateCopyItemPosition(currentItem.center,
+                               currentItem.tag)
     }
     
     private func updateCopyItemPosition(_ itemCenter: CGPoint,
