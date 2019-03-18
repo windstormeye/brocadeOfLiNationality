@@ -14,6 +14,7 @@ public class PJShowContentView: UIView {
     var focusItems = [PJShowItem]()
     var copyItems = [PJShowItem]()
     // 注意：这里为三元组
+    /// 底图上的数据
     var itemsFilter = [[PJShowItem]]()
     
     public override init(frame: CGRect) {
@@ -122,6 +123,13 @@ public class PJShowContentView: UIView {
         
         updateCopyItemPosition(currentItem.center,
                                currentItem.tag)
+        
+        // 判赢
+        if PJShowItemCreator.shared.isWin(verifyItems: itemsFilter) {
+            print("You Win!!!")
+        } else {
+            print("come on!!!")
+        }
     }
     
     private func updateCopyItemPosition(_ itemCenter: CGPoint,

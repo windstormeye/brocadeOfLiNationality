@@ -103,3 +103,10 @@ public class PJShowItem: UIView {
 fileprivate extension Selector {
     static let pan = #selector(PJShowItem.panGestrue(panGesture:))
 }
+
+
+extension PJShowItem {
+    static func == (leftItem: PJShowItem, rightItem: PJShowItem) -> Bool {
+        return leftItem.tag == rightItem.tag
+    }
+}

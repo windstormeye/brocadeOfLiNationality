@@ -10,7 +10,7 @@ import UIKit
 
 public class PJHomeViewController: UIViewController {
     
-    var itemTag = 100
+    var itemTag = 101
     
     public override func loadView() {
         view = UIView(frame: UIScreen.main.bounds)

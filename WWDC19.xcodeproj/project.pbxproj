@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C37C285223FCD9B00B66004 /* PJShowItemCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C37C284223FCD9B00B66004 /* PJShowItemCreator.swift */; };
 		0C4F5D11223CDD4D005B31A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4F5D10223CDD4D005B31A5 /* AppDelegate.swift */; };
 		0C4F5D13223CDD4D005B31A5 /* PJHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4F5D12223CDD4D005B31A5 /* PJHomeViewController.swift */; };
 		0C4F5D18223CDD4F005B31A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C4F5D17223CDD4F005B31A5 /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C37C284223FCD9B00B66004 /* PJShowItemCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PJShowItemCreator.swift; sourceTree = "<group>"; };
 		0C4F5D0D223CDD4D005B31A5 /* WWDC19.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WWDC19.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C4F5D10223CDD4D005B31A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0C4F5D12223CDD4D005B31A5 /* PJHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PJHomeViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 				0C4F5D30223D28F8005B31A5 /* PJLineCollectionViewLayout.swift */,
 				0C4F5D2C223D2559005B31A5 /* PJLineCollectionView.swift */,
 				0C4F5D2E223D26D8005B31A5 /* PJLineCollectionViewCell.swift */,
+				0C37C284223FCD9B00B66004 /* PJShowItemCreator.swift */,
 				0C4F5D17223CDD4F005B31A5 /* Assets.xcassets */,
 				0C4F5D19223CDD4F005B31A5 /* LaunchScreen.storyboard */,
 				0C4F5D1C223CDD4F005B31A5 /* Info.plist */,
@@ -156,6 +159,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C4F5D13223CDD4D005B31A5 /* PJHomeViewController.swift in Sources */,
+				0C37C285223FCD9B00B66004 /* PJShowItemCreator.swift in Sources */,
 				0C4F5D23223CDD6A005B31A5 /* Define.swift in Sources */,
 				0C4F5D2B223D20CF005B31A5 /* PJShowBottomView.swift in Sources */,
 				0C4F5D2D223D2559005B31A5 /* PJLineCollectionView.swift in Sources */,
