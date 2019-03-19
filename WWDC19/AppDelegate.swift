@@ -18,6 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         let vc = PJHomeViewController()
         vc.brocadeType = .small
+        vc.brocadeBackgroundColor = .bgColor()
+        vc.sizeType = .square
         window?.rootViewController = vc
         window?.makeKeyAndVisible()
         

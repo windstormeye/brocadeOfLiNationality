@@ -59,8 +59,7 @@ public class PJShowItem: UIView {
             
             let final_right = final_centerX + width / 2
             let final_left = final_centerX - width / 2
-            
-            let final_top = final_centerY - height / 2
+            let final_top = final_centerY
             let final_bottom = final_centerY + height / 2
             
             if endLeft != nil {

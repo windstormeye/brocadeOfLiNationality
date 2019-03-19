@@ -11,6 +11,11 @@ import UIKit
 public class PJShowContentView: UIView {
     var tempItem: PJShowItem? { didSet { didSetTempItem() }}
     
+    var endTop: CGFloat? { return top }
+    var endBottom: CGFloat? { return bottom }
+    var endLeft: CGFloat? { return left }
+    var endRight: CGFloat? { return width / 2 }
+    
     var focusItems = [PJShowItem]()
     var copyItems = [PJShowItem]()
     // 注意：这里为三元组
@@ -23,6 +28,10 @@ public class PJShowContentView: UIView {
     
     private var itemW = screenWidth / 6
     
+    public override var frame: CGRect {
+        didSet { initView() }
+    }
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
@@ -33,6 +42,8 @@ public class PJShowContentView: UIView {
     }
     
     private func initView() {
+        guard width != 0 else { return }
+
         let imgView = UIImageView(frame: CGRect(x: width / 2, y: 0,
                                                 width: 5, height: height))
         addSubview(imgView)

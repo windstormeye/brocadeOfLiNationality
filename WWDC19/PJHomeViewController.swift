@@ -19,9 +19,11 @@ public class PJHomeViewController: UIViewController {
     
     public override func loadView() {
         view = UIView(frame: CGRect(x: 0, y: 0, width: 375, height: 667))
-        view.backgroundColor = brocadeBackgroundColor
+        view.backgroundColor = UIColor.rgb(230, 230, 230)
         
-        let contentView = PJShowContentView(frame: CGRect(x: 0, y: 0, width: view.width, height: view.height - 64))
+        let contentView = PJShowContentView()
+        view.addSubview(contentView)
+        contentView.backgroundColor = brocadeBackgroundColor
         
         switch brocadeType {
         case .normal: break
@@ -29,7 +31,16 @@ public class PJHomeViewController: UIViewController {
         case .big: contentView.itemXCount = 4
         }
         
-        view.addSubview(contentView)
+        switch sizeType {
+        case .rectangle: contentView.frame = CGRect(x: 0, y: 0,
+                                                    width: view.width,
+                                                    height: view.height - 64)
+        case .square: contentView.frame = CGRect(x: 0, y: 0,
+                                                 width: view.width,
+                                                 height: view.width)
+            contentView.y = (screenHeight - screenWidth) / 2
+        case .circular: break
+        }
         
         PJShowItemCreator.shared.brocadeType = brocadeType
         
@@ -49,10 +60,10 @@ public class PJHomeViewController: UIViewController {
             // 刚开始的初始化先让其消失
             let moveItem = PJShowItem(frame: CGRect(x: -1000, y: -1000,
                                                     width: itemW, height: itemW))
-            moveItem.endTop = 0
-            moveItem.endBottom = contentView.height
-            moveItem.endLeft = 0
-            moveItem.endRight = contentView.width / 2
+            moveItem.endTop = contentView.endTop
+            moveItem.endBottom = contentView.endBottom
+            moveItem.endLeft = contentView.endLeft
+            moveItem.endRight = contentView.endRight
             moveItem.backgroundColor = bottomView.viewModel![cellIndex]
             moveItem.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
             moveItem.tag = self.itemTag
