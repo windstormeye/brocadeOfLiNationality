@@ -34,3 +34,10 @@ extension UIColor {
 }
 
 
+public func PJInsertRoundingCorners(_ view: UIView) {
+    let path = UIBezierPath(roundedRect: view.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 8.0, height: 8.0))
+    let pathMaskLayer = CAShapeLayer()
+    pathMaskLayer.frame = view.bounds
+    pathMaskLayer.path = path.cgPath
+    view.layer.mask = pathMaskLayer
+}

@@ -19,14 +19,13 @@ public class PJHomeViewController: UIViewController {
     
     public override func loadView() {
         view = UIView(frame: CGRect(x: 0, y: 0, width: 375, height: 667))
-        view.backgroundColor = UIColor.rgb(230, 230, 230)
+        view.backgroundColor = brocadeBackgroundColor
         
         let contentView = PJShowContentView()
         view.addSubview(contentView)
-        contentView.backgroundColor = brocadeBackgroundColor
         
         switch brocadeType {
-        case .normal: break
+        case .normal: contentView.itemXCount = 3
         case .small: contentView.itemXCount = 2
         case .big: contentView.itemXCount = 4
         }
@@ -56,7 +55,9 @@ public class PJHomeViewController: UIViewController {
         }
         
         bottomView.moveBegin = { cellIndex in
-            let itemW = screenWidth / CGFloat(contentView.itemXCount * 2)
+            guard contentView.itemXCount != nil else { return }
+            
+            let itemW = screenWidth / CGFloat(contentView.itemXCount! * 2)
             // 刚开始的初始化先让其消失
             let moveItem = PJShowItem(frame: CGRect(x: -1000, y: -1000,
                                                     width: itemW, height: itemW))
@@ -78,8 +79,6 @@ public class PJHomeViewController: UIViewController {
             tempItem.transform = CGAffineTransform(scaleX: 1, y: 1)
         }
     }
-    
-    
 }
 
 extension PJHomeViewController {

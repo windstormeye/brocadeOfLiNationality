@@ -22,7 +22,7 @@ public class PJShowContentView: UIView {
     /// 底图上的数据
     var itemsFilter = [[PJShowItem]]()
     // 横向个数
-    var itemXCount = 3 {
+    var itemXCount: Int? {
         didSet { initData() }
     }
     
@@ -44,6 +44,12 @@ public class PJShowContentView: UIView {
     private func initView() {
         guard width != 0 else { return }
 
+        backgroundColor = .clear
+        
+        let bgImageView = UIImageView(frame: bounds)
+        bgImageView.image = UIImage(named: "01")
+        addSubview(bgImageView)
+        
         let imgView = UIImageView(frame: CGRect(x: width / 2, y: 0,
                                                 width: 5, height: height))
         addSubview(imgView)
@@ -151,9 +157,11 @@ public class PJShowContentView: UIView {
     }
     
     private func initData() {
-        itemW = screenWidth / CGFloat(itemXCount * 2)
+        guard itemXCount != nil else { return }
         
-        let XIndex = itemXCount
+        itemW = screenWidth / CGFloat(itemXCount! * 2)
+        
+        let XIndex = itemXCount!
         let YIndex = Int((screenHeight - 64) / itemW)
         for _ in 0..<YIndex {
             var items = [PJShowItem]()

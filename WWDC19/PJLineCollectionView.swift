@@ -42,7 +42,7 @@ class PJLineCollectionView: UICollectionView {
     }
     
     private func initView() {
-        backgroundColor = .white
+        backgroundColor = .clear
         showsHorizontalScrollIndicator = false
         isPagingEnabled = true
         
