@@ -16,6 +16,12 @@ public class PJShowContentView: UIView {
     // 注意：这里为三元组
     /// 底图上的数据
     var itemsFilter = [[PJShowItem]]()
+    // 横向个数
+    var itemXCount = 3 {
+        didSet { initData() }
+    }
+    
+    private var itemW = screenWidth / 6
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,20 +33,8 @@ public class PJShowContentView: UIView {
     }
     
     private func initView() {
-        let XIndex = 3
-        let itemW = screenWidth / 6
-        let YIndex = Int((screenHeight - 64) / itemW)
-        for _ in 0..<YIndex {
-            var items = [PJShowItem]()
-            for _ in 0..<XIndex {
-                items.append(PJShowItem())
-            }
-            itemsFilter.append(items)
-        }
-        
-        
-        let imgView: UIImageView = UIImageView(frame: CGRect(x: width / 2, y: 0,
-                                                             width: 5, height: height))
+        let imgView = UIImageView(frame: CGRect(x: width / 2, y: 0,
+                                                width: 5, height: height))
         addSubview(imgView)
         UIGraphicsBeginImageContext(imgView.frame.size) // 位图上下文绘制区域
         imgView.image?.draw(in: imgView.bounds)
@@ -87,7 +81,6 @@ public class PJShowContentView: UIView {
     }
     
     func fitNearbyLocation(_ currentItem: PJShowItem) {
-        let itemW = screenWidth / 6
         let itemCenter = CGPoint(x: currentItem.x,
                                  y: currentItem.y)
         
@@ -144,5 +137,19 @@ public class PJShowContentView: UIView {
         let copyX = middleX + middleW
         
         copyItem[0].center = CGPoint(x: copyX, y: itemCenter.y)
+    }
+    
+    private func initData() {
+        itemW = screenWidth / CGFloat(itemXCount * 2)
+        
+        let XIndex = itemXCount
+        let YIndex = Int((screenHeight - 64) / itemW)
+        for _ in 0..<YIndex {
+            var items = [PJShowItem]()
+            for _ in 0..<XIndex {
+                items.append(PJShowItem())
+            }
+            itemsFilter.append(items)
+        }
     }
 }

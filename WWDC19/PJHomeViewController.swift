@@ -10,14 +10,28 @@ import UIKit
 
 public class PJHomeViewController: UIViewController {
     
-    var itemTag = 101
+    var gameType: GameType = .guide
+    var brocadeType: BrocadeType = .normal
+    var sizeType: SizeType = .rectangle
+    var brocadeBackgroundColor: UIColor = UIColor.bgColor()
+    
+    private var itemTag = 101
     
     public override func loadView() {
-        view = UIView(frame: UIScreen.main.bounds)
-        view.backgroundColor = .bgColor()
+        view = UIView(frame: CGRect(x: 0, y: 0, width: 375, height: 667))
+        view.backgroundColor = brocadeBackgroundColor
         
         let contentView = PJShowContentView(frame: CGRect(x: 0, y: 0, width: view.width, height: view.height - 64))
+        
+        switch brocadeType {
+        case .normal: break
+        case .small: contentView.itemXCount = 2
+        case .big: contentView.itemXCount = 4
+        }
+        
         view.addSubview(contentView)
+        
+        PJShowItemCreator.shared.brocadeType = brocadeType
         
         let bottomView = PJShowBottonView(height: 64, longPressView: view)
         view.addSubview(bottomView)
@@ -31,9 +45,9 @@ public class PJHomeViewController: UIViewController {
         }
         
         bottomView.moveBegin = { cellIndex in
-            let itemW = screenWidth / 6
+            let itemW = screenWidth / CGFloat(contentView.itemXCount * 2)
             // 刚开始的初始化先让其消失
-            let moveItem = PJShowItem(frame: CGRect(x: -100, y: -100,
+            let moveItem = PJShowItem(frame: CGRect(x: -1000, y: -1000,
                                                     width: itemW, height: itemW))
             moveItem.endTop = 0
             moveItem.endBottom = contentView.height
@@ -53,7 +67,25 @@ public class PJHomeViewController: UIViewController {
             tempItem.transform = CGAffineTransform(scaleX: 1, y: 1)
         }
     }
-
-
+    
+    
 }
 
+extension PJHomeViewController {
+    public enum GameType {
+        case create
+        case guide
+    }
+    
+    public enum BrocadeType {
+        case small
+        case normal
+        case big
+    }
+    
+    public enum SizeType {
+        case rectangle
+        case square
+        case circular
+    }
+}
