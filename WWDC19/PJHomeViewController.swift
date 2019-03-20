@@ -15,6 +15,7 @@ public class PJHomeViewController: UIViewController {
     var sizeType: SizeType = .rectangle
     var brocadeBackgroundColor: UIColor = UIColor.bgColor()
     
+    private var bottomView: PJShowBottonView?
     private var itemTag = 101
     
     public override func loadView() {
@@ -23,6 +24,11 @@ public class PJHomeViewController: UIViewController {
         
         let contentView = PJShowContentView()
         view.addSubview(contentView)
+        contentView.winComplate = {
+            UIView.animate(withDuration: 0.25, animations: {
+                self.bottomView!.top = screenHeight
+            })
+        }
         
         switch brocadeType {
         case .normal: contentView.itemXCount = 3
@@ -45,21 +51,27 @@ public class PJHomeViewController: UIViewController {
         
         let bottomView = PJShowBottonView(height: 64, longPressView: view)
         view.addSubview(bottomView)
+        self.bottomView = bottomView
         var imgs = [UIImage]()
         for itemY in 0..<contentView.itemYCont! {
             for itemX in 0..<contentView.itemXCount! {
                 let x = (contentView.itemW ?? 0) * CGFloat(itemX)
                 let y = (contentView.itemW ?? 0) * CGFloat(itemY)
                 var itemW = contentView.itemW
-                var itemH: CGFloat?
+                var itemH = itemW
+                
                 if itemY == contentView.itemYCont! - 1 {
                     itemW = contentView.itemW
                     itemH = CGFloat(20)
                 }
                 
+                if itemX == contentView.itemXCount! - 1 {
+                    itemW = contentView.itemW! / 3 * 2 + 2
+                }
+                
                 let img = contentView.bgImageView?.image?.image(with: CGRect(x: x, y: y,
                                                                              width: itemW!,
-                                                                             height: itemH ?? itemW!))
+                                                                             height: itemH!))
                 imgs.append(img!)
             }
         }
@@ -87,6 +99,11 @@ public class PJHomeViewController: UIViewController {
             moveItem.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
             moveItem.tag = self.itemTag
             self.itemTag += 1
+            
+            // 最后一排，顺序不能错，从左到右一个一个来！！！
+            if [28, 29, 30].contains(moveItem.tag - 100) {
+                moveItem.isBottomItem = true
+            }
             
             contentView.addSubview(moveItem)
             contentView.tempItem = moveItem

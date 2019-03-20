@@ -16,6 +16,7 @@ public class PJShowContentView: UIView {
     var endLeft: CGFloat? { return left }
     var endRight: CGFloat? { return width / 2 }
     
+    var winComplate: (() -> Void)?
     var sizeType: PJHomeViewController.SizeType = .rectangle
     var focusItems = [PJShowItem]()
     var copyItems = [PJShowItem]()
@@ -43,6 +44,8 @@ public class PJShowContentView: UIView {
         didSet { initView() }
     }
     
+    private var lineImageView: UIImageView?
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
@@ -59,13 +62,13 @@ public class PJShowContentView: UIView {
         
         bgImageView = UIImageView(frame: bounds)
         bgImageView!.image = UIImage(named: "01")
-//        addSubview(bgImageView!)
         
         let imgView = UIImageView(frame: CGRect(x: width / 2, y: 0,
                                                 width: 5, height: height))
         addSubview(imgView)
         UIGraphicsBeginImageContext(imgView.frame.size) // 位图上下文绘制区域
         imgView.image?.draw(in: imgView.bounds)
+        lineImageView = imgView
         
         let context:CGContext = UIGraphicsGetCurrentContext()!
         context.setLineCap(CGLineCap.square)
@@ -118,9 +121,12 @@ public class PJShowContentView: UIView {
         let finalItemCenterX = CGFloat(itemXIndex) * CGFloat(itemW ?? 0)
         
         let itemYIndex = Int(itemCenter.y / CGFloat(itemW ?? 0))
-        let finalItemCenterY = CGFloat(itemYIndex) * CGFloat(itemW ?? 0)
+        var finalItemCenterY = CGFloat(itemYIndex) * CGFloat(itemW ?? 0)
         
         if itemsFilter[itemYIndex][itemXIndex].tag == 0 {
+            if currentItem.isBottomItem {
+                finalItemCenterY -= currentItem.height / 3 + 2
+            }
             currentItem.x = finalItemCenterX
             currentItem.y = finalItemCenterY
             
@@ -149,7 +155,17 @@ public class PJShowContentView: UIView {
         
         // 判赢
         if PJShowItemCreator.shared.isWin(verifyItems: itemsFilter) {
-            print("You Win!!!")
+            for (index, focuseItem) in focusItems.enumerated() {
+                let copyItem = copyItems[index]
+                if !copyItem.isMove { copyItem.isMove = true }
+                if !focuseItem.isMove {
+                    focuseItem.isMove = true
+//                    focuseItem.isUserInteractionEnabled = false
+                }
+            }
+            print("you win!!!")
+            winComplate?()
+            self.lineImageView?.alpha = 0
         } else {
             print("come on!!!")
         }
@@ -165,8 +181,9 @@ public class PJShowContentView: UIView {
         let middleX = width / 2
         let middleW = middleX - itemCenter.x
         let copyX = middleX + middleW
+        var copyY = itemCenter.y
         
-        copyItem[0].center = CGPoint(x: copyX, y: itemCenter.y)
+        copyItem[0].center = CGPoint(x: copyX, y: copyY)
     }
     
     private func initData() {

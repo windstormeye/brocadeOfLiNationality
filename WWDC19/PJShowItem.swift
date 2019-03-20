@@ -23,8 +23,6 @@ public class PJShowItem: UIView {
     var oldCenter: CGPoint?
     /// 底图
     var bgImage: UIImage? { didSet { didSetBgImgae() } }
-    private var isCopy: Bool = false
-    
     /// 当前在 x 轴上的位置
     var currentXIndex: Int?
     /// 当前在 y 轴上的位置
@@ -33,6 +31,19 @@ public class PJShowItem: UIView {
     var previousXIndex: Int?
     /// 之前在 y 轴上的位置
     var previousYIndex: Int?
+    /// 是否需要移动
+    var isMove: Bool = false {
+        didSet {
+            if isCopy {
+                left -= width / 3 - 2.5
+                return
+            }
+            right += width / 3 - 2.5
+        }
+    }
+    
+    private var isCopy: Bool = false
+    var isBottomItem: Bool = false
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -55,7 +66,7 @@ public class PJShowItem: UIView {
     
     private func didSetBgImgae() {
         let imageView = UIImageView(image: bgImage!)
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .left
         imageView.frame = CGRect(x: 0, y: 0, width: width, height: height)
         if isCopy {
             imageView.transform = CGAffineTransform(scaleX: -1, y: 1)
