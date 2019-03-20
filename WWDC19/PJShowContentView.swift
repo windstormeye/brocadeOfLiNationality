@@ -16,17 +16,28 @@ public class PJShowContentView: UIView {
     var endLeft: CGFloat? { return left }
     var endRight: CGFloat? { return width / 2 }
     
+    var sizeType: PJHomeViewController.SizeType = .rectangle
     var focusItems = [PJShowItem]()
     var copyItems = [PJShowItem]()
     // 注意：这里为三元组
     /// 底图上的数据
     var itemsFilter = [[PJShowItem]]()
-    // 横向个数
-    var itemXCount: Int? {
-        didSet { initData() }
+    /// 底图
+    var bgImageView: UIImageView?
+    /// 横向个数
+    var itemXCount: Int? { didSet { initData() } }
+    /// 纵向个数
+    var itemYCont: Int? {
+        var vHeight = screenHeight - 64
+        if sizeType == .rectangle {
+            vHeight += 24
+        }
+        return Int(vHeight / CGFloat(itemW ?? 0))
     }
-    
-    private var itemW = screenWidth / 6
+    var itemW: CGFloat? {
+        guard itemXCount != nil else { return 0 }
+        return screenWidth / (CGFloat(itemXCount ?? 0) * 2)
+    }
     
     public override var frame: CGRect {
         didSet { initView() }
@@ -46,9 +57,9 @@ public class PJShowContentView: UIView {
 
         backgroundColor = .clear
         
-        let bgImageView = UIImageView(frame: bounds)
-        bgImageView.image = UIImage(named: "01")
-        addSubview(bgImageView)
+        bgImageView = UIImageView(frame: bounds)
+        bgImageView!.image = UIImage(named: "01")
+//        addSubview(bgImageView!)
         
         let imgView = UIImageView(frame: CGRect(x: width / 2, y: 0,
                                                 width: 5, height: height))
@@ -77,10 +88,12 @@ public class PJShowContentView: UIView {
         // 刚开始先顶出去
         let copyItem = PJShowItem(frame: CGRect(x: -1000, y: -1000,
                                                 width: focusItem.width / 3 * 2,
-                                                height: focusItem.height / 3 * 2))
+                                                height: focusItem.height / 3 * 2),
+                                  isCopy: true)
         copyItem.tag = focusItem.tag
         copyItem.backgroundColor = focusItem.backgroundColor
         copyItem.isUserInteractionEnabled = false
+        copyItem.bgImage = focusItem.bgImage
         addSubview(copyItem)
         
         focusItem.panGestureX = { newCenter in
@@ -101,11 +114,11 @@ public class PJShowContentView: UIView {
         let itemCenter = CGPoint(x: currentItem.x,
                                  y: currentItem.y)
         
-        let itemXIndex = lroundf(Float(itemCenter.x / itemW))
-        let finalItemCenterX = CGFloat(itemXIndex) * itemW
+        let itemXIndex = lroundf(Float(itemCenter.x / CGFloat(itemW ?? 0)))
+        let finalItemCenterX = CGFloat(itemXIndex) * CGFloat(itemW ?? 0)
         
-        let itemYIndex = Int(itemCenter.y / itemW)
-        let finalItemCenterY = CGFloat(itemYIndex) * itemW
+        let itemYIndex = Int(itemCenter.y / CGFloat(itemW ?? 0))
+        let finalItemCenterY = CGFloat(itemYIndex) * CGFloat(itemW ?? 0)
         
         if itemsFilter[itemYIndex][itemXIndex].tag == 0 {
             currentItem.x = finalItemCenterX
@@ -159,10 +172,13 @@ public class PJShowContentView: UIView {
     private func initData() {
         guard itemXCount != nil else { return }
         
-        itemW = screenWidth / CGFloat(itemXCount! * 2)
-        
         let XIndex = itemXCount!
-        let YIndex = Int((screenHeight - 64) / itemW)
+        var vHeight = screenHeight - 64
+        if sizeType == .rectangle {
+            vHeight += 24
+        }
+        let YIndex = Int(vHeight / CGFloat(itemW ?? 0))
+        
         for _ in 0..<YIndex {
             var items = [PJShowItem]()
             for _ in 0..<XIndex {

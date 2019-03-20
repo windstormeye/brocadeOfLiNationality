@@ -19,22 +19,29 @@ public class PJShowItem: UIView {
     var endLeft: CGFloat?
     var endRight: CGFloat?
     
-    // 移动开始时的位置
+    /// 移动开始时的位置
     var oldCenter: CGPoint?
+    /// 底图
+    var bgImage: UIImage? { didSet { didSetBgImgae() } }
+    private var isCopy: Bool = false
     
-    // 当前在 x 轴上的位置
+    /// 当前在 x 轴上的位置
     var currentXIndex: Int?
-    // 当前在 y 轴上的位置
+    /// 当前在 y 轴上的位置
     var currentYIndex: Int?
-    
-    // 之前在 x 轴上的位置
+    /// 之前在 x 轴上的位置
     var previousXIndex: Int?
-    // 之前在 y 轴上的位置
+    /// 之前在 y 轴上的位置
     var previousYIndex: Int?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
+    }
+    
+    convenience init(frame: CGRect, isCopy: Bool) {
+        self.init(frame: frame)
+        self.isCopy = isCopy
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -44,6 +51,16 @@ public class PJShowItem: UIView {
     private func initView() {
         let panGesture = UIPanGestureRecognizer(target: self, action: .pan)
         addGestureRecognizer(panGesture)
+    }
+    
+    private func didSetBgImgae() {
+        let imageView = UIImageView(image: bgImage!)
+        imageView.contentMode = .scaleAspectFit
+        imageView.frame = CGRect(x: 0, y: 0, width: width, height: height)
+        if isCopy {
+            imageView.transform = CGAffineTransform(scaleX: -1, y: 1)
+        }
+        addSubview(imageView)
     }
     
     @objc

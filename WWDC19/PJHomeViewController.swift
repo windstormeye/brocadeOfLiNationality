@@ -45,27 +45,45 @@ public class PJHomeViewController: UIViewController {
         
         let bottomView = PJShowBottonView(height: 64, longPressView: view)
         view.addSubview(bottomView)
-        let colors = [UIColor.red, UIColor.yellow, UIColor.green, UIColor.blue, UIColor.brown, UIColor.gray, UIColor.black, UIColor.brown, UIColor.darkGray, UIColor.lightGray, UIColor.cyan]
-        bottomView.viewModel = colors
-        
+        var imgs = [UIImage]()
+        for itemY in 0..<contentView.itemYCont! {
+            for itemX in 0..<contentView.itemXCount! {
+                let x = (contentView.itemW ?? 0) * CGFloat(itemX)
+                let y = (contentView.itemW ?? 0) * CGFloat(itemY)
+                var itemW = contentView.itemW
+                var itemH: CGFloat?
+                if itemY == contentView.itemYCont! - 1 {
+                    itemW = contentView.itemW
+                    itemH = CGFloat(20)
+                }
+                
+                let img = contentView.bgImageView?.image?.image(with: CGRect(x: x, y: y,
+                                                                             width: itemW!,
+                                                                             height: itemH ?? itemW!))
+                imgs.append(img!)
+            }
+        }
+        bottomView.viewModel = imgs
         bottomView.moveCell = { cellIndex, centerPoint in
             guard let tempItem = contentView.tempItem else { return }
             tempItem.center = CGPoint(x: centerPoint.x,
                                       y: centerPoint.y + bottomView.top)
         }
-        
         bottomView.moveBegin = { cellIndex in
             guard contentView.itemXCount != nil else { return }
             
-            let itemW = screenWidth / CGFloat(contentView.itemXCount! * 2)
+            let itemW = contentView.itemW
             // 刚开始的初始化先让其消失
             let moveItem = PJShowItem(frame: CGRect(x: -1000, y: -1000,
-                                                    width: itemW, height: itemW))
+                                                    width: itemW!, height: itemW!))
             moveItem.endTop = contentView.endTop
             moveItem.endBottom = contentView.endBottom
+            if self.sizeType == .rectangle {
+                moveItem.endBottom = screenHeight - 40
+            }
             moveItem.endLeft = contentView.endLeft
             moveItem.endRight = contentView.endRight
-            moveItem.backgroundColor = bottomView.viewModel![cellIndex]
+            moveItem.bgImage = bottomView.viewModel![cellIndex]
             moveItem.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
             moveItem.tag = self.itemTag
             self.itemTag += 1

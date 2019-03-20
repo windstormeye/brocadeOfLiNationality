@@ -15,7 +15,7 @@ class PJLineCollectionView: UICollectionView {
 //    var viewModels: [PJLineCollectionViewCell.ViewModel]? {
 //        didSet { reloadData() }
 //    }
-    var viewModels: [UIColor]? { didSet { reloadData() }}
+    var viewModels: [UIImage]? { didSet { reloadData() }}
     var currentCellIndex: Int?
     var longPressView: UIView?
     var moveCell: ((Int, CGPoint) -> Void)?
@@ -104,6 +104,7 @@ extension PJLineCollectionView: UICollectionViewDataSource {
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PJLineCollectionViewCell",
                                                       for: indexPath) as! PJLineCollectionViewCell
+        cell.clearSubView()
         cell.viewModel = viewModels![indexPath.row]
         return cell
     }

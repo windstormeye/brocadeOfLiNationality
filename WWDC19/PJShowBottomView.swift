@@ -12,7 +12,7 @@ import UIKit
 public class PJShowBottonView: UIView {
     
 //    var images: [UIImage]?
-    var viewModel: [UIColor]? {
+    var viewModel: [UIImage]? {
         didSet { collectionView?.viewModels = viewModel }
     }
     var moveCell: ((Int, CGPoint) -> Void)?

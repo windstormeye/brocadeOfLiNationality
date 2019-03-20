@@ -30,6 +30,7 @@ class PJShowItemCreator {
                 [0, 0, 0],
                 [0, 0, 0],
                 [0, 0, 0],
+                [0, 0, 0],
             ]
         case .small:
             fo = [
