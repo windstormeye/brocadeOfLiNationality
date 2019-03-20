@@ -62,6 +62,7 @@ public class PJShowContentView: UIView {
         
         bgImageView = UIImageView(frame: bounds)
         bgImageView!.image = UIImage(named: "01")
+//        addSubview(bgImageView!)
         
         let imgView = UIImageView(frame: CGRect(x: width / 2, y: 0,
                                                 width: 5, height: height))
@@ -181,9 +182,8 @@ public class PJShowContentView: UIView {
         let middleX = width / 2
         let middleW = middleX - itemCenter.x
         let copyX = middleX + middleW
-        var copyY = itemCenter.y
         
-        copyItem[0].center = CGPoint(x: copyX, y: copyY)
+        copyItem[0].center = CGPoint(x: copyX, y: itemCenter.y)
     }
     
     private func initData() {

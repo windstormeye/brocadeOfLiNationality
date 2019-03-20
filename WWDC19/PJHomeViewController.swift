@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import AVFoundation
 
-public class PJHomeViewController: UIViewController {
+public class PJHomeViewController: UIViewController, PJParticleAnimationable {
     
     var gameType: GameType = .guide
     var brocadeType: BrocadeType = .normal
@@ -16,18 +17,21 @@ public class PJHomeViewController: UIViewController {
     var brocadeBackgroundColor: UIColor = UIColor.bgColor()
     
     private var bottomView: PJShowBottonView?
+    private var contentView: PJShowContentView?
     private var itemTag = 101
     
     public override func loadView() {
         view = UIView(frame: CGRect(x: 0, y: 0, width: 375, height: 667))
         view.backgroundColor = brocadeBackgroundColor
+        self.winLabel.isHighlighted = true
+        
+        startMusic()
         
         let contentView = PJShowContentView()
+        self.contentView = contentView
         view.addSubview(contentView)
         contentView.winComplate = {
-            UIView.animate(withDuration: 0.25, animations: {
-                self.bottomView!.top = screenHeight
-            })
+            self.win()
         }
         
         switch brocadeType {
@@ -100,7 +104,7 @@ public class PJHomeViewController: UIViewController {
             moveItem.tag = self.itemTag
             self.itemTag += 1
             
-            // 最后一排，顺序不能错，从左到右一个一个来！！！
+            // TODO：重新设计。最后一排，顺序不能错，从左到右一个一个来！！！
             if [28, 29, 30].contains(moveItem.tag - 100) {
                 moveItem.isBottomItem = true
             }
@@ -114,6 +118,74 @@ public class PJHomeViewController: UIViewController {
             tempItem.transform = CGAffineTransform(scaleX: 1, y: 1)
         }
     }
+    
+    private func win() {
+        startParticleAnimation(CGPoint(x: screenWidth / 2, y: screenHeight - 10))
+
+        
+        UIView.animate(withDuration: 0.25, animations: {
+            self.bottomView!.top = screenHeight
+        })
+        
+        contentView!.isHidden = true
+        
+        let finalManContentView = UIImageView(frame: CGRect(x: 0, y: 0,
+                                                            width: screenWidth,
+                                                            height: screenHeight - 64))
+        finalManContentView.image = UIImage(named: "finalManContent")
+        self.view.addSubview(finalManContentView)
+        
+        let finalMan = UIImageView(frame: CGRect(x: 0, y: 0,
+                                                 width: finalManContentView.width * 0.85,
+                                                 height: finalManContentView.width * 0.8 * 0.85))
+        finalMan.center = self.view.center
+        finalMan.image = UIImage(named: "finalMan")
+        self.view.addSubview(finalMan)
+        
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            finalMan.transform = CGAffineTransform(rotationAngle: 0.25)
+        }) { (finished) in
+            UIView.animate(withDuration: 0.5, animations: {
+                finalMan.transform = CGAffineTransform(rotationAngle: -0.25)
+            }, completion: { (finished) in
+                UIView.animate(withDuration: 0.5, animations: {
+                    finalMan.transform = CGAffineTransform(rotationAngle: 0)
+                })
+            })
+        }
+    }
+    
+    private func startMusic() {
+        let session = AVAudioSession.sharedInstance()
+        do{
+            try session.setActive(true)
+            let path = Bundle.main.path(forResource: "LiSong", ofType: "mp3")
+            let soudUrl = URL(fileURLWithPath: path!)
+            var audioPlayer:AVAudioPlayer = AVAudioPlayer()
+            try audioPlayer = AVAudioPlayer(contentsOf: soudUrl)
+            audioPlayer.prepareToPlay()
+            audioPlayer.volume = 1.0
+            audioPlayer.numberOfLoops = -1
+            audioPlayer.play()
+        } catch{
+            print(error)
+        }
+    }
+    
+    lazy var winLabel: UILabel = {
+        let label = UILabel(frame: CGRect(x: 0, y: screenHeight - 64,
+                                          width: screenWidth, height: 64))
+        label.centerX = view.centerX
+        label.font = UIFont.systemFont(ofSize: 40,
+                                       weight: UIFont.Weight.light)
+        label.text = "Dàlì shén"
+        label.textAlignment = .center
+        label.textColor = .white
+        view.addSubview(label)
+        return label
+    }()
+    
 }
 
 extension PJHomeViewController {

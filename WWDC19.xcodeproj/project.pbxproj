@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0C37C285223FCD9B00B66004 /* PJShowItemCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C37C284223FCD9B00B66004 /* PJShowItemCreator.swift */; };
+		0C37C2872242644500B66004 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C37C2862242644500B66004 /* Animation.swift */; };
+		0C37C2892242757E00B66004 /* LiSong.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0C37C2882242757E00B66004 /* LiSong.mp3 */; };
 		0C4F5D11223CDD4D005B31A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4F5D10223CDD4D005B31A5 /* AppDelegate.swift */; };
 		0C4F5D13223CDD4D005B31A5 /* PJHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4F5D12223CDD4D005B31A5 /* PJHomeViewController.swift */; };
 		0C4F5D18223CDD4F005B31A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C4F5D17223CDD4F005B31A5 /* Assets.xcassets */; };
@@ -24,6 +26,8 @@
 
 /* Begin PBXFileReference section */
 		0C37C284223FCD9B00B66004 /* PJShowItemCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PJShowItemCreator.swift; sourceTree = "<group>"; };
+		0C37C2862242644500B66004 /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
+		0C37C2882242757E00B66004 /* LiSong.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = LiSong.mp3; sourceTree = "<group>"; };
 		0C4F5D0D223CDD4D005B31A5 /* WWDC19.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WWDC19.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C4F5D10223CDD4D005B31A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0C4F5D12223CDD4D005B31A5 /* PJHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PJHomeViewController.swift; sourceTree = "<group>"; };
@@ -73,6 +77,7 @@
 				0C4F5D26223CE3E1005B31A5 /* UIViewPosition.swift */,
 				0C4F5D10223CDD4D005B31A5 /* AppDelegate.swift */,
 				0C4F5D12223CDD4D005B31A5 /* PJHomeViewController.swift */,
+				0C37C2862242644500B66004 /* Animation.swift */,
 				0C4F5D24223CE24C005B31A5 /* PJShowContentView.swift */,
 				0C4F5D28223D0EDD005B31A5 /* PJShowItem.swift */,
 				0C4F5D2A223D20CF005B31A5 /* PJShowBottomView.swift */,
@@ -80,6 +85,7 @@
 				0C4F5D2C223D2559005B31A5 /* PJLineCollectionView.swift */,
 				0C4F5D2E223D26D8005B31A5 /* PJLineCollectionViewCell.swift */,
 				0C37C284223FCD9B00B66004 /* PJShowItemCreator.swift */,
+				0C37C2882242757E00B66004 /* LiSong.mp3 */,
 				0C4F5D17223CDD4F005B31A5 /* Assets.xcassets */,
 				0C4F5D19223CDD4F005B31A5 /* LaunchScreen.storyboard */,
 				0C4F5D1C223CDD4F005B31A5 /* Info.plist */,
@@ -146,6 +152,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C37C2892242757E00B66004 /* LiSong.mp3 in Resources */,
 				0C4F5D1B223CDD4F005B31A5 /* LaunchScreen.storyboard in Resources */,
 				0C4F5D18223CDD4F005B31A5 /* Assets.xcassets in Resources */,
 			);
@@ -168,6 +175,7 @@
 				0C4F5D11223CDD4D005B31A5 /* AppDelegate.swift in Sources */,
 				0C4F5D25223CE24C005B31A5 /* PJShowContentView.swift in Sources */,
 				0C4F5D2F223D26D8005B31A5 /* PJLineCollectionViewCell.swift in Sources */,
+				0C37C2872242644500B66004 /* Animation.swift in Sources */,
 				0C4F5D29223D0EDD005B31A5 /* PJShowItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
