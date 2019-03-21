@@ -42,8 +42,9 @@ public class PJShowItem: UIView {
         }
     }
     
+    var isBottomItem = false
+    var isHelpItem = false
     private var isCopy: Bool = false
-    var isBottomItem: Bool = false
     
     public override init(frame: CGRect) {
         super.init(frame: frame)

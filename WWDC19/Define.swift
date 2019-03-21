@@ -49,6 +49,22 @@ extension UIImage {
 
         return finanImage
     }
+    
+    
+    func drawTextInImage(index: Int) -> UIImage {
+        UIGraphicsBeginImageContext(self.size)
+        self.draw(in: CGRect.init(x: 0, y: 0, width: self.size.width, height: self.size.height))
+        let att = [NSAttributedString.Key.foregroundColor:UIColor.black,NSAttributedString.Key.font:UIFont.systemFont(ofSize: 20)]
+    
+        let text = NSString(string: "\(index)")
+        let size =  text.size(withAttributes: att)
+        text.draw(in: CGRect.init(x: size.width + 10, y: 10, width: 20, height: 20),
+                  withAttributes: att)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return image!
+    }
 }
 
 public func PJInsertRoundingCorners(_ view: UIView) {

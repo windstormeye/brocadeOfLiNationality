@@ -15,6 +15,7 @@ public class PJHomeViewController: UIViewController, PJParticleAnimationable {
     var brocadeType: BrocadeType = .normal
     var sizeType: SizeType = .rectangle
     var brocadeBackgroundColor: UIColor = UIColor.bgColor()
+    var audioPlayer:AVAudioPlayer = AVAudioPlayer()
     
     private var bottomView: PJShowBottonView?
     private var contentView: PJShowContentView?
@@ -23,9 +24,9 @@ public class PJHomeViewController: UIViewController, PJParticleAnimationable {
     public override func loadView() {
         view = UIView(frame: CGRect(x: 0, y: 0, width: 375, height: 667))
         view.backgroundColor = brocadeBackgroundColor
-        self.winLabel.isHighlighted = true
+        self.winLabel.isHidden = true
         
-        startMusic()
+//        startMusic()
         
         let contentView = PJShowContentView()
         self.contentView = contentView
@@ -56,7 +57,17 @@ public class PJHomeViewController: UIViewController, PJParticleAnimationable {
         let bottomView = PJShowBottonView(height: 64, longPressView: view)
         view.addSubview(bottomView)
         self.bottomView = bottomView
+        bottomView.isHidden = true
+        bottomView.layer.opacity = 0
+        
+        UIView.animate(withDuration: 2) {
+            bottomView.isHidden = false
+            bottomView.layer.opacity = 1
+        }
+        
         var imgs = [UIImage]()
+        var imgIndexs = [Int]()
+
         for itemY in 0..<contentView.itemYCont! {
             for itemX in 0..<contentView.itemXCount! {
                 let x = (contentView.itemW ?? 0) * CGFloat(itemX)
@@ -77,8 +88,21 @@ public class PJHomeViewController: UIViewController, PJParticleAnimationable {
                                                                              width: itemW!,
                                                                              height: itemH!))
                 imgs.append(img!)
+                imgIndexs.append(itemY * contentView.itemXCount! + itemX)
             }
         }
+        
+        
+        
+        for i in 1..<imgs.count {
+            let index = Int(arc4random()) % i
+            if index != i {
+                imgs.swapAt(i, index)
+                imgIndexs.swapAt(i, index)
+            }
+        }
+        
+        bottomView.collectionView?.viewModelIndexs = imgIndexs
         bottomView.viewModel = imgs
         bottomView.moveCell = { cellIndex, centerPoint in
             guard let tempItem = contentView.tempItem else { return }
@@ -121,7 +145,7 @@ public class PJHomeViewController: UIViewController, PJParticleAnimationable {
     
     private func win() {
         startParticleAnimation(CGPoint(x: screenWidth / 2, y: screenHeight - 10))
-
+        self.winLabel.isHidden = false
         
         UIView.animate(withDuration: 0.25, animations: {
             self.bottomView!.top = screenHeight
@@ -162,7 +186,6 @@ public class PJHomeViewController: UIViewController, PJParticleAnimationable {
             try session.setActive(true)
             let path = Bundle.main.path(forResource: "LiSong", ofType: "mp3")
             let soudUrl = URL(fileURLWithPath: path!)
-            var audioPlayer:AVAudioPlayer = AVAudioPlayer()
             try audioPlayer = AVAudioPlayer(contentsOf: soudUrl)
             audioPlayer.prepareToPlay()
             audioPlayer.volume = 1.0

@@ -11,7 +11,6 @@ import UIKit
 
 public class PJShowBottonView: UIView {
     
-//    var images: [UIImage]?
     var viewModel: [UIImage]? {
         didSet { collectionView?.viewModels = viewModel }
     }

@@ -40,11 +40,13 @@ public class PJShowContentView: UIView {
         return screenWidth / (CGFloat(itemXCount ?? 0) * 2)
     }
     
+    
     public override var frame: CGRect {
         didSet { initView() }
     }
     
     private var lineImageView: UIImageView?
+    private var currentHelpItem: UIView?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -62,7 +64,6 @@ public class PJShowContentView: UIView {
         
         bgImageView = UIImageView(frame: bounds)
         bgImageView!.image = UIImage(named: "01")
-//        addSubview(bgImageView!)
         
         let imgView = UIImageView(frame: CGRect(x: width / 2, y: 0,
                                                 width: 5, height: height))
@@ -90,10 +91,11 @@ public class PJShowContentView: UIView {
     
     private func createCopyItem(_ focusItem: PJShowItem) {
         // 刚开始先顶出去
-        let copyItem = PJShowItem(frame: CGRect(x: -1000, y: -1000,
+        let copyItem = PJShowItem(frame: CGRect(x: 0, y: 0,
                                                 width: focusItem.width / 3 * 2,
                                                 height: focusItem.height / 3 * 2),
                                   isCopy: true)
+        copyItem.center = focusItem.center
         copyItem.tag = focusItem.tag
         copyItem.backgroundColor = focusItem.backgroundColor
         copyItem.isUserInteractionEnabled = false
@@ -161,7 +163,7 @@ public class PJShowContentView: UIView {
                 if !copyItem.isMove { copyItem.isMove = true }
                 if !focuseItem.isMove {
                     focuseItem.isMove = true
-//                    focuseItem.isUserInteractionEnabled = false
+                    focuseItem.isUserInteractionEnabled = false
                 }
             }
             print("you win!!!")
