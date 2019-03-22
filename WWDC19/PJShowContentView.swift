@@ -118,12 +118,23 @@ public class PJShowContentView: UIView {
             copyItem.center = CGPoint(x: copyX, y: newCenter.y)
         }
         focusItem.tapGestrueEnd = {
-            copyItem.transform = CGAffineTransform(a: -focusItem.transform.a,
-                                                   b: focusItem.transform.b,
-                                                   c: -focusItem.transform.c,
-                                                   d: focusItem.transform.d,
-                                                   tx: -focusItem.transform.tx,
-                                                   ty: -focusItem.transform.ty)
+            print(focusItem.transform)
+            
+            if [1.0, -1.0].contains(focusItem.transform.a) {
+                copyItem.transform = CGAffineTransform(a: focusItem.transform.a,
+                                                       b: -focusItem.transform.b,
+                                                       c: -focusItem.transform.c,
+                                                       d: focusItem.transform.d,
+                                                       tx: focusItem.transform.tx,
+                                                       ty: focusItem.transform.ty)
+            } else {
+                copyItem.transform = CGAffineTransform(a: -focusItem.transform.a,
+                                                       b: -focusItem.transform.b,
+                                                       c: -focusItem.transform.c,
+                                                       d: focusItem.transform.d,
+                                                       tx: focusItem.transform.tx,
+                                                       ty: focusItem.transform.ty)
+            }
         }
         
         copyItems.append(copyItem)
