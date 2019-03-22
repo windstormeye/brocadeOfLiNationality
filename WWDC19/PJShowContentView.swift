@@ -61,7 +61,7 @@ public class PJShowContentView: UIView {
     private func initView() {
         guard width != 0 else { return }
 
-        backgroundColor = .clear
+//        backgroundColor = .clear
         
         bgImageView = UIImageView(frame: bounds)
         bgImageView!.image = UIImage(named: "01")

@@ -17,10 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         let vc = PJHomeViewController()
-        vc.gameType = .create
+        vc.gameType = .guide
         vc.brocadeType = .normal
         vc.brocadeBackgroundColor = .bgColor()
-        vc.sizeType = .rectangle
         window?.rootViewController = vc
         window?.makeKeyAndVisible()
         

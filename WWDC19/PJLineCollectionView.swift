@@ -65,8 +65,10 @@ class PJLineCollectionView: UICollectionView {
         case .began:
             let cellIndexPath = self.indexPathForItem(at: longPressGesture.location(in: self))
             if cellIndexPath != nil {
+                print(cellIndexPath?.row as! Int)
                 currentCellIndex = cellIndexPath!.row
                 moveBegin?(currentCellIndex!)
+                viewModelIndexs!.remove(at: currentCellIndex!)
             }
             
         case .changed:
@@ -79,7 +81,6 @@ class PJLineCollectionView: UICollectionView {
         case .ended:
             if gameType == .guide {
                 viewModels!.remove(at: currentCellIndex!)
-                viewModelIndexs!.remove(at: currentCellIndex!)
             }
             reloadData()
             moveEnd?()
