@@ -9,6 +9,8 @@
 import UIKit
 
 public class PJShowContentView: UIView {
+    var undoAddItem: ((Int) -> Void)?
+    
     var tempItem: PJShowItem? { didSet { didSetTempItem() }}
     
     var endTop: CGFloat? { return top }
@@ -117,6 +119,7 @@ public class PJShowContentView: UIView {
             
             copyItem.center = CGPoint(x: copyX, y: newCenter.y)
         }
+        
         focusItem.tapGestrueEnd = {
             print(focusItem.transform)
             
@@ -134,6 +137,19 @@ public class PJShowContentView: UIView {
                                                        d: focusItem.transform.d,
                                                        tx: focusItem.transform.tx,
                                                        ty: focusItem.transform.ty)
+            }
+        }
+        
+        focusItem.longPressGestureEnd = { itemTag in
+            self.undoAddItem?(itemTag)
+            
+            for (index, item) in self.copyItems.enumerated() {
+                if item.tag == itemTag {
+                    item.removeFromSuperview()
+                    self.copyItems.remove(at: index)
+                    self.focusItems.remove(at: index)
+                    self.itemsFilter[focusItem.currentYIndex!][focusItem.currentXIndex!] = PJShowItem()
+                }
             }
         }
         

@@ -65,7 +65,6 @@ class PJLineCollectionView: UICollectionView {
         case .began:
             let cellIndexPath = self.indexPathForItem(at: longPressGesture.location(in: self))
             if cellIndexPath != nil {
-                print(cellIndexPath?.row as! Int)
                 currentCellIndex = cellIndexPath!.row
                 moveBegin?(currentCellIndex!)
                 viewModelIndexs!.remove(at: currentCellIndex!)

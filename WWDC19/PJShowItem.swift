@@ -8,12 +8,12 @@
 
 import UIKit
 
-
 public class PJShowItem: UIView {
     /// return new item.center
     var panGestureX: ((CGPoint) -> Void)?
     var panGestureEnd: (() -> Void)?
     var tapGestrueEnd: (() -> Void)?
+    var longPressGestureEnd: ((Int) -> Void)?
     
     var endTop: CGFloat?
     var endBottom: CGFloat?
@@ -63,12 +63,18 @@ public class PJShowItem: UIView {
     }
     
     private func initView() {
-        let panGesture = UIPanGestureRecognizer(target: self, action: .pan)
+        let panGesture = UIPanGestureRecognizer(target: self,
+                                                action: .pan)
         addGestureRecognizer(panGesture)
         
-        let doubleTapGesture = UITapGestureRecognizer(target: self, action: .doubleTap)
+        let doubleTapGesture = UITapGestureRecognizer(target: self,
+                                                      action: .doubleTap)
         doubleTapGesture.numberOfTapsRequired = 2
         addGestureRecognizer(doubleTapGesture)
+        
+        let longPressGesture = UILongPressGestureRecognizer(target: self,
+                                                            action: .longPress)
+        addGestureRecognizer(longPressGesture)
     }
     
     private func didSetBgImgae() {
@@ -145,10 +151,19 @@ public class PJShowItem: UIView {
             tapGestrueEnd?()
         }
     }
+    
+    @objc
+    fileprivate func longPressGesture(longPress: UILongPressGestureRecognizer) {
+        if longPress.state == .began {
+            removeFromSuperview()
+            longPressGestureEnd?(tag)
+        }
+    }
 }
 
 
 fileprivate extension Selector {
     static let pan = #selector(PJShowItem.panGestrue(panGesture:))
     static let doubleTap = #selector(PJShowItem.doubleTapGesture(tap:))
+    static let longPress = #selector(PJShowItem.longPressGesture(longPress:))
 }

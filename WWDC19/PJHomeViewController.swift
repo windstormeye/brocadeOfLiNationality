@@ -46,21 +46,9 @@ public class PJHomeViewController: UIViewController, PJParticleAnimationable {
         
         PJShowItemCreator.shared.brocadeType = brocadeType
         
-        let bottomView = PJShowBottonView(height: 64, longPressView: view)
-        view.addSubview(bottomView)
-        self.bottomView = bottomView
-        bottomView.collectionView?.gameType = gameType
-        bottomView.isHidden = true
-        bottomView.layer.opacity = 0
-        
-        UIView.animate(withDuration: 2) {
-            bottomView.isHidden = false
-            bottomView.layer.opacity = 1
-        }
-        
         var imgs = [UIImage]()
         var imgIndexs = [Int]()
-
+        
         for itemY in 0..<contentView.itemYCont! {
             for itemX in 0..<contentView.itemXCount! {
                 let x = (contentView.itemW ?? 0) * CGFloat(itemX)
@@ -93,6 +81,31 @@ public class PJHomeViewController: UIViewController, PJParticleAnimationable {
             }
         }
         
+        contentView.undoAddItem = { itemTag in
+            var itemIndex = 0
+            for (index, item) in imgIndexs.enumerated() {
+                if item == itemTag - 1 {
+                    itemIndex = index
+                    break
+                }
+            }
+            self.bottomView?.collectionView?.viewModelIndexs?.append(imgIndexs[itemIndex])
+            self.bottomView?.viewModel?.append(imgs[itemIndex])
+        }
+        
+        
+        let bottomView = PJShowBottonView(height: 64, longPressView: view)
+        view.addSubview(bottomView)
+        self.bottomView = bottomView
+        bottomView.collectionView?.gameType = gameType
+        bottomView.isHidden = true
+        bottomView.layer.opacity = 0
+        
+        UIView.animate(withDuration: 2) {
+            bottomView.isHidden = false
+            bottomView.layer.opacity = 1
+        }
+        
         if gameType == .guide {
             bottomView.collectionView?.viewModelIndexs = imgIndexs
         }
@@ -116,6 +129,7 @@ public class PJHomeViewController: UIViewController, PJParticleAnimationable {
             }
             moveItem.endLeft = contentView.endLeft
             moveItem.endRight = contentView.endRight
+            // TODO: 这里的问题
             moveItem.bgImage = bottomView.viewModel![cellIndex]
             moveItem.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
             moveItem.tag = bottomView.collectionView!.viewModelIndexs![cellIndex] + 1
