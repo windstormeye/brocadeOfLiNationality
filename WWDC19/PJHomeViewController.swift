@@ -29,6 +29,7 @@ public class PJHomeViewController: UIViewController, PJParticleAnimationable {
 //        startMusic()
         
         let contentView = PJShowContentView()
+        contentView.gameType = gameType
         self.contentView = contentView
         view.addSubview(contentView)
         contentView.winComplate = {
@@ -57,6 +58,7 @@ public class PJHomeViewController: UIViewController, PJParticleAnimationable {
         let bottomView = PJShowBottonView(height: 64, longPressView: view)
         view.addSubview(bottomView)
         self.bottomView = bottomView
+        bottomView.collectionView?.gameType = gameType
         bottomView.isHidden = true
         bottomView.layer.opacity = 0
         
@@ -84,9 +86,7 @@ public class PJHomeViewController: UIViewController, PJParticleAnimationable {
                     itemW = contentView.itemW! / 3 * 2 + 2
                 }
                 
-                let img = contentView.bgImageView?.image?.image(with: CGRect(x: x, y: y,
-                                                                             width: itemW!,
-                                                                             height: itemH!))
+                let img = contentView.bgImageView?.image?.image(with: CGRect(x: x, y: y, width: itemW!, height: itemH!))
                 imgs.append(img!)
                 imgIndexs.append(itemY * contentView.itemXCount! + itemX)
             }
@@ -102,7 +102,9 @@ public class PJHomeViewController: UIViewController, PJParticleAnimationable {
             }
         }
         
-        bottomView.collectionView?.viewModelIndexs = imgIndexs
+        if gameType == .guide {
+            bottomView.collectionView?.viewModelIndexs = imgIndexs
+        }
         bottomView.viewModel = imgs
         bottomView.moveCell = { cellIndex, centerPoint in
             guard let tempItem = contentView.tempItem else { return }
@@ -118,7 +120,7 @@ public class PJHomeViewController: UIViewController, PJParticleAnimationable {
                                                     width: itemW!, height: itemW!))
             moveItem.endTop = contentView.endTop
             moveItem.endBottom = contentView.endBottom
-            if self.sizeType == .rectangle {
+            if self.sizeType == .rectangle && self.gameType == .guide {
                 moveItem.endBottom = screenHeight - 40
             }
             moveItem.endLeft = contentView.endLeft
@@ -128,7 +130,7 @@ public class PJHomeViewController: UIViewController, PJParticleAnimationable {
             moveItem.tag = self.itemTag
             self.itemTag += 1
             
-            // TODO：重新设计。最后一排，顺序不能错，从左到右一个一个来！！！
+            
             if [28, 29, 30].contains(moveItem.tag - 100) {
                 moveItem.isBottomItem = true
             }

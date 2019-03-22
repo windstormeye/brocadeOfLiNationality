@@ -18,6 +18,7 @@ public class PJShowContentView: UIView {
     
     var winComplate: (() -> Void)?
     var sizeType: PJHomeViewController.SizeType = .rectangle
+    var gameType: PJHomeViewController.GameType = .guide
     var focusItems = [PJShowItem]()
     var copyItems = [PJShowItem]()
     // 注意：这里为三元组
@@ -70,6 +71,8 @@ public class PJShowContentView: UIView {
         addSubview(imgView)
         UIGraphicsBeginImageContext(imgView.frame.size) // 位图上下文绘制区域
         imgView.image?.draw(in: imgView.bounds)
+        imgView.isHidden = true
+        imgView.alpha = 0
         lineImageView = imgView
         
         let context:CGContext = UIGraphicsGetCurrentContext()!
@@ -82,6 +85,11 @@ public class PJShowContentView: UIView {
         context.strokePath()
         
         imgView.image = UIGraphicsGetImageFromCurrentImageContext()
+        
+        UIView.animate(withDuration: 2) {
+            self.lineImageView?.isHidden = false
+            self.lineImageView?.alpha = 1
+        }
     }
     
     private func didSetTempItem() {
@@ -109,10 +117,21 @@ public class PJShowContentView: UIView {
             
             copyItem.center = CGPoint(x: copyX, y: newCenter.y)
         }
+        focusItem.tapGestrueEnd = {
+            copyItem.transform = CGAffineTransform(a: -focusItem.transform.a,
+                                                   b: focusItem.transform.b,
+                                                   c: -focusItem.transform.c,
+                                                   d: focusItem.transform.d,
+                                                   tx: -focusItem.transform.tx,
+                                                   ty: -focusItem.transform.ty)
+        }
+        
         copyItems.append(copyItem)
         
         focusItem.panGestureEnd = {
-            self.fitNearbyLocation(focusItem)
+            if self.gameType == .guide {
+                self.fitNearbyLocation(focusItem)
+            }
         }
     }
     
