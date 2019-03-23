@@ -25,7 +25,7 @@ public class PJHomeViewController: UIViewController, PJParticleAnimationable {
         view.backgroundColor = brocadeBackgroundColor
         self.winLabel.isHidden = true
         
-//        startMusic()
+        startMusic()
         
         let contentView = PJShowContentView()
         contentView.gameType = gameType
@@ -80,7 +80,7 @@ public class PJHomeViewController: UIViewController, PJParticleAnimationable {
                 }
             }
         } else {
-            for index in 1...16 {
+            for index in 1...18 {
                 let img = UIImage(named: "created_\(index)")
                 imgs.append(img!)
                 imgIndexs.append(index)
